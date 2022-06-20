@@ -1,0 +1,344 @@
+package com.tugalsan.api.string.client;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.stream.IntStream;
+
+public class TGS_StringUtils {
+
+    //NO DEPENDECY FUNC
+    private static Double toDouble(CharSequence s) {
+        try {
+            return Double.parseDouble(s.toString().replace(",", ".").trim());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String concat(CharSequence... s) {
+        return String.join("", s);
+    }
+
+    public static String concat(List<String> lst) {
+        return toString(lst, "");
+    }
+
+    public static String[] ifDouble_getParsed3(CharSequence inputText, boolean turkish, int supIdx) {
+        return new String[]{
+            inputText.toString().substring(0, supIdx),
+            turkish ? "," : ".",
+            inputText.toString().substring(supIdx + 1)
+        };
+    }
+
+    public static boolean hasDouble(CharSequence inputText, boolean turkish) {
+        var internationalText = turkish ? inputText.toString().replace(",", ".") : inputText.toString();
+        if (!internationalText.contains(".")) {
+            return false;
+        }
+        var tags = internationalText.split(" ");
+        for (String tag : tags) {
+            if (!tag.contains(".")) {
+                continue;
+            }
+            var idx = ifDouble_getSupIdx(tag, turkish);
+            if (idx != -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int ifDouble_getSupIdx(CharSequence inputText, boolean turkish) {
+        if (inputText.length() == 1) {
+            return -1;
+        }
+        var internationalText = turkish ? inputText.toString().replace(",", ".") : inputText.toString();
+        var idx = internationalText.indexOf(".");
+        if (idx == -1 || idx == internationalText.length() - 1) {
+            return -1;
+        }
+        if (toDouble(internationalText) == null) {
+            return -1;
+        }
+        return idx;
+    }
+
+    public static String reverse(CharSequence data) {
+        return new StringBuilder(data).reverse().toString();
+    }
+
+    public static String make2Chars(int value) {
+        return value > 9 ? "" + value : "0" + value;
+    }
+
+    public static String make4Chars(int value) {
+        var sValue = String.valueOf(value);
+        if (value > 999) {
+            return sValue.substring(sValue.length() - 4, sValue.length());
+        } else if (value > 99) {
+            return TGS_StringUtils.concat("0", sValue);
+        } else if (value > 9) {
+            return TGS_StringUtils.concat("00", sValue);
+        } else {
+            return TGS_StringUtils.concat("000", sValue);
+        }
+    }
+
+    public static boolean isNullOrEmptyOrHidden(CharSequence text) {
+        return toNullIfEmptyOrHidden(text) == null;
+    }
+
+    public static boolean isNullOrEmpty(CharSequence text) {
+        return toNullIfEmpty(text) == null;
+    }
+
+    public static boolean isPresent(CharSequence text) {
+        return !isNullOrEmpty(text);
+    }
+
+    public static boolean isPresentAndShowing(CharSequence text) {
+        return !isNullOrEmptyOrHidden(text);
+    }
+
+    public static String toNullIfEmptyOrHidden(CharSequence text) {
+        if (text == null) {
+            return null;
+        }
+        var textStr = removeHidden(text.toString().trim());
+        if (textStr.isEmpty()) {
+            return null;
+        }
+        if (Objects.equals(textStr, "null")) {
+            return null;
+        }
+        return textStr;
+    }
+
+    public static String toNullIfEmpty(CharSequence text) {
+        if (text == null) {
+            return null;
+        }
+        var textStr = text.toString().trim();
+        if (textStr.isEmpty()) {
+            return null;
+        }
+        if (Objects.equals(textStr, "null")) {
+            return null;
+        }
+        return textStr;
+    }
+
+    public static String toEmptyIfNull(CharSequence text) {
+        if (text == null) {
+            return "";
+        }
+        var textStr = text.toString();
+        if (textStr.trim().isEmpty()) {
+            return "";
+        }
+        return textStr;
+    }
+
+    public static String toString(Throwable e) {
+        if (e == null) {
+            return null;
+        }
+        var prefix = TGS_StringUtils.concat("ERROR CAUSE: '", e.toString(), "'\n", "ERROR TREE:\n");
+        var sj = new StringJoiner("\n", prefix, null);
+        Arrays.stream(e.getStackTrace()).forEachOrdered(ste -> sj.add(ste.toString()));
+        return sj.toString();
+    }
+
+    public static String toString(float[] v, CharSequence delim) {
+        if (v == null) {
+            return "null";
+        }
+        var sj = new StringJoiner(delim);
+        IntStream.range(0, v.length).forEachOrdered(i -> sj.add(String.valueOf(v[i])));
+        return sj.toString();
+    }
+
+    public static String toString(double[] v, CharSequence delim) {
+        if (v == null) {
+            return "null";
+        }
+        var sj = new StringJoiner(delim);
+        IntStream.range(0, v.length).forEachOrdered(i -> sj.add(String.valueOf(v[i])));
+        return sj.toString();
+    }
+
+    public static String toString(byte[] v, CharSequence delim) {
+        return v == null ? "null" : new String(v, StandardCharsets.UTF_8);
+    }
+
+    public static String toString(boolean[] v, CharSequence delim) {
+        if (v == null) {
+            return "null";
+        }
+        var sj = new StringJoiner(delim);
+        IntStream.range(0, v.length).forEachOrdered(i -> sj.add(String.valueOf(v[i])));
+        return sj.toString();
+    }
+
+    public static String toString(int[] v, CharSequence delim) {
+        if (v == null) {
+            return "null";
+        }
+        var sj = new StringJoiner(delim);
+        IntStream.range(0, v.length).forEachOrdered(i -> sj.add(String.valueOf(v[i])));
+        return sj.toString();
+    }
+
+    public static String toString(List v, CharSequence delim) {
+        return toString(v, delim, 0);
+    }
+
+    public static String toString(List v, CharSequence delim, int offset) {
+        if (v == null) {
+            return "null";
+        }
+        var sj = new StringJoiner(delim);
+        IntStream.range(offset, v.size()).forEachOrdered(i -> sj.add(String.valueOf(v.get(i))));
+        return sj.toString();
+    }
+
+    public static String toString(List v, CharSequence tagStart, CharSequence tagEnd) {
+        if (v == null) {
+            return "null";
+        }
+        var sj = new StringJoiner(", ", tagStart, tagEnd);
+        v.stream().forEachOrdered(o -> sj.add(String.valueOf(o)));
+        return sj.toString();
+    }
+
+    public static String toString_ln(List v) {
+        return toString(v, "\n");
+    }
+
+    public static String removeConsecutive(CharSequence source, CharSequence key) {
+        var sourceStr = source.toString();
+        var sb = new StringBuilder();
+        sb.append(key).append(key);
+        while (sourceStr.contains(sb)) {
+            sourceStr = sourceStr.replace(sb, key);
+        }
+        return sourceStr;
+    }
+
+    public static String toString(Object[] data, CharSequence delimiter) {
+        if (data == null) {
+            return "null";
+        }
+        var sj = new StringJoiner(delimiter);
+        Arrays.stream(data).forEachOrdered(o -> sj.add(String.valueOf(o)));
+        return sj.toString();
+    }
+
+    public static String toString_tab(List<String> data) {
+        return toString(data, "\t");
+    }
+
+    public static String toString_spc(List<String> data) {
+        return toString(data, " ");
+    }
+
+    public static String toString_tab(Object[] data) {
+        return toString(data, "\t");
+    }
+
+    public static String toString_spc(Object[] data) {
+        return toString(data, " ");
+    }
+
+    public static int count(CharSequence text, CharSequence whatToCount) {
+        var textStr = text.toString();
+        return textStr.length() - textStr.replace(whatToCount, "").length();
+    }
+
+    public static long count(CharSequence text, char whatToCount) {
+        return text.chars().filter(ch -> ch == '.').count();
+    }
+
+    public static String getBetween(CharSequence srcOrg, CharSequence fromTagOrg, CharSequence toTagOrg, boolean matchCase) {
+        var src = matchCase ? srcOrg.toString() : srcOrg.toString().toUpperCase(Locale.ROOT);
+        var fromTag = matchCase ? fromTagOrg.toString() : fromTagOrg.toString().toUpperCase(Locale.ROOT);
+        var toTag = matchCase ? toTagOrg.toString() : toTagOrg.toString().toUpperCase(Locale.ROOT);
+        if (src == null) {
+            return null;
+        }
+        var idxFrom = src.indexOf(fromTag);
+        if (idxFrom == -1) {
+            return null;
+        }
+        if (idxFrom + 1 > src.length()) {
+            return null;
+        }
+        var idxTo = src.indexOf(toTag, idxFrom + 1);
+        if (idxTo == -1) {
+            idxTo = src.length();
+        }
+        return idxFrom == idxTo ? "" : srcOrg.toString().substring(idxFrom + 1, idxTo);
+    }
+
+    public static String toString(float flt, boolean isTurkish) {
+        return toString((double) flt, isTurkish);
+    }
+
+    public static String toString(double dbl, boolean isTurkish) {
+        var dblStr = String.valueOf(dbl);
+        if (!isTurkish) {
+            return dblStr;
+        }
+        if (!dblStr.contains(".")) {
+            return dblStr;
+        }
+        var idx = dblStr.lastIndexOf(".");
+        return TGS_StringUtils.concat(dblStr.substring(0, idx), ",", dblStr.substring(idx + 1));
+    }
+
+    public static String trimIfNotNull(CharSequence text) {
+        return text == null ? null : text.toString().trim();
+    }
+
+    public static String removeHidden(CharSequence text) {
+        if (text == null) {
+            return null;
+        }
+        return text.toString().replace("\n", "").replace("\r", "").replaceAll("\\p{C}", "?");
+    }
+
+    public static String removeCharFromEnd(CharSequence text, int charCount) {
+        var str = text.toString();
+        return str.substring(0, str.length() - charCount);
+    }
+
+    public static String removeCharFromStart(CharSequence text, int charCount) {
+        var str = text.toString();
+        return str.substring(charCount);
+    }
+
+    public static String removePrefix(CharSequence text, String prefix) {
+        var str = text.toString();
+        if (str.startsWith(prefix)) {
+            return removeCharFromStart(text, prefix.length());
+        }
+        return str;
+    }
+
+    public static String removeSuffix(CharSequence text, String suffix) {
+        var str = text.toString();
+        if (str.endsWith(suffix)) {
+            return removeCharFromEnd(text, suffix.length());
+        }
+        return str;
+    }
+
+    public static String toStringFromCodePoints(int p) {
+        return new String(Character.toChars(p));
+    }
+}
