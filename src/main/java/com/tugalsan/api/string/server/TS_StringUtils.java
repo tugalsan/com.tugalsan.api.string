@@ -1,6 +1,7 @@
 package com.tugalsan.api.string.server;
 
 import com.tugalsan.api.string.client.*;
+import com.tugalsan.api.unsafe.client.*;
 import java.io.*;
 import java.nio.charset.*;
 import java.util.*;
@@ -78,12 +79,12 @@ public class TS_StringUtils {
 
     //STREAM-OP-----------------------------------------------------------------------------
     public static String toString(InputStream is0, Charset charset) {
-        try ( var is = is0) {
-            var bytes = is.readAllBytes();
-            return new String(bytes, charset);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return TGS_UnSafe.compile(is0, charset, (is0Ref, charsetRef) -> {
+            try ( var is = is0) {
+                var bytes = is.readAllBytes();
+                return new String(bytes, charset);
+            }
+        });
     }
 
     public static void toStream(OutputStream os, CharSequence data) {
@@ -91,12 +92,12 @@ public class TS_StringUtils {
     }
 
     public static void toStream(OutputStream os0, CharSequence data, Charset charset) {
-        try ( var os = os0) {
-            var bytes = data.toString().getBytes(charset);
-            os.write(bytes);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        TGS_UnSafe.execute(() -> {
+            try ( var os = os0) {
+                var bytes = data.toString().getBytes(charset);
+                os.write(bytes);
+            }
+        });
     }
 
     //PARSE-BASIC------------------------------------------------------------------------
