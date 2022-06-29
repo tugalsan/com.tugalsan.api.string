@@ -79,7 +79,7 @@ public class TS_StringUtils {
 
     //STREAM-OP-----------------------------------------------------------------------------
     public static String toString(InputStream is0, Charset charset) {
-        return TGS_UnSafe.compile(is0, charset, (is0Ref, charsetRef) -> {
+        return TGS_UnSafe.compile(() -> {
             try ( var is = is0) {
                 var bytes = is.readAllBytes();
                 return new String(bytes, charset);
