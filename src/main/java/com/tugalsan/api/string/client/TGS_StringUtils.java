@@ -1,22 +1,15 @@
 package com.tugalsan.api.string.client;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.StringJoiner;
-import java.util.stream.IntStream;
+import com.tugalsan.api.unsafe.client.*;
+import java.nio.charset.*;
+import java.util.*;
+import java.util.stream.*;
 
 public class TGS_StringUtils {
 
     //NO DEPENDECY FUNC
     private static Double toDouble(CharSequence s) {
-        try {
-            return Double.parseDouble(s.toString().replace(",", ".").trim());
-        } catch (Exception e) {
-            return null;
-        }
+        return TGS_UnSafe.compile(() -> Double.parseDouble(s.toString().replace(",", ".").trim()), e -> null);
     }
 
     public static String concat(CharSequence... s) {
