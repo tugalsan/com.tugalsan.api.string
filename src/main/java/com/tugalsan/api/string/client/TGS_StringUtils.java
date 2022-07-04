@@ -7,11 +7,6 @@ import java.util.stream.*;
 
 public class TGS_StringUtils {
 
-    //NO DEPENDECY FUNC
-    private static Double toDouble(CharSequence s) {
-        return TGS_UnSafe.compile(() -> Double.parseDouble(s.toString().replace(",", ".").trim()), e -> null);
-    }
-
     public static String concat(CharSequence... s) {
         return String.join("", s);
     }
@@ -55,7 +50,7 @@ public class TGS_StringUtils {
         if (idx == -1 || idx == internationalText.length() - 1) {
             return -1;
         }
-        if (toDouble(internationalText) == null) {
+        if (TGS_UnSafe.compile(() -> Double.parseDouble(internationalText.replace(",", ".").trim()), e -> null) == null) {
             return -1;
         }
         return idx;
