@@ -199,7 +199,7 @@ public class TGS_StringUtils {
         if (v == null) {
             return "null";
         }
-        var sj = new StringJoiner(delim, prefix, suffix);
+        var sj = new StringJoiner(delim);
         IntStream.range(0, v.size()).forEachOrdered(i -> {
             sj.add(
                     concat(prefix, String.valueOf(v.get(i)), suffix)
