@@ -195,12 +195,16 @@ public class TGS_StringUtils {
         return sj.toString();
     }
 
-    public static String toString(List v, CharSequence delim, int offset, CharSequence prefix, CharSequence suffix) {
+    public static String toString(List v, CharSequence delim, CharSequence prefix, CharSequence suffix) {
         if (v == null) {
             return "null";
         }
         var sj = new StringJoiner(delim, prefix, suffix);
-        IntStream.range(offset, v.size()).forEachOrdered(i -> sj.add(concat(prefix, String.valueOf(v.get(i)), suffix));
+        IntStream.range(0, v.size()).forEachOrdered(i -> {
+            sj.add(
+                    concat(prefix, String.valueOf(v.get(i)), suffix)
+            );
+        });
         return sj.toString();
     }
 
