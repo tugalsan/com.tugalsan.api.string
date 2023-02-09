@@ -192,7 +192,7 @@ public class TS_StringUtils {
         if (input == null) {
             return String.valueOf(input);
         }
-        return toString(input, charSizeAfterDot, false);
+        return toString(input.doubleValue(), charSizeAfterDot, false);
     }
 
     public static String toString(double input, int charSizeAfterDot) {
