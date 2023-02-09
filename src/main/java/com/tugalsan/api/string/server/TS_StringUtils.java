@@ -189,6 +189,17 @@ public class TS_StringUtils {
     }
 
     public static String toString(Double input, int charSizeAfterDot, boolean remove0sFromTheEnd) {
+        if (input == null) {
+            return String.valueOf(input);
+        }
+        return toString(input, charSizeAfterDot, false);
+    }
+
+    public static String toString(double input, int charSizeAfterDot) {
+        return toString(input, charSizeAfterDot, false);
+    }
+
+    public static String toString(double input, int charSizeAfterDot, boolean remove0sFromTheEnd) {
         var val = String.format("%." + charSizeAfterDot + "f", input);
         if (remove0sFromTheEnd && charSizeAfterDot > 0) {
             while (val.endsWith("0")) {
