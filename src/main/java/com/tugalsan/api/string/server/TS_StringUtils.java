@@ -45,7 +45,6 @@ public class TS_StringUtils {
     }
 
     public static String toString(byte[] source, Charset charset) {
-
         if (source == null) {
             return "";
         }
