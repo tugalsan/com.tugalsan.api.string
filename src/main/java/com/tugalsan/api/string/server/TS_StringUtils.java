@@ -50,6 +50,16 @@ public class TS_StringUtils {
             return "";
         }
         var r = new String(source, charset);
+        //            if (obj instanceof CharSequence) {
+//                try ( var input = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+//                    var sb = new StringBuilder();
+//                    String readLine;
+//                    while ((readLine = input.readLine()) != null) {
+//                        sb.append(readLine).append("\n");
+//                    }
+//                    return sb.substring(0, sb.length() - 1);
+//                }
+//            }
         if (r.isEmpty()) {
             return r;
         }
