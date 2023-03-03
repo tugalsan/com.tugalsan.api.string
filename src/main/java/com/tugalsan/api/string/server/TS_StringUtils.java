@@ -15,10 +15,12 @@ public class TS_StringUtils {
         Locale.setDefault(new Locale("tr", "TR"));
     }
 
+    //ISSUE: https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html#toLowerCase()
     public static String toLowerCase(CharSequence source) {
         return source.toString().toLowerCase(Locale.ROOT);
     }
 
+    //ISSUE: https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html#toLowerCase()
     public static String toUpperCase(CharSequence source) {
         return source.toString().toLowerCase(Locale.ROOT);
     }
