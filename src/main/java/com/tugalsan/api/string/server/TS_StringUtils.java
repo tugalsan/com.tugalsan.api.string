@@ -1,5 +1,6 @@
 package com.tugalsan.api.string.server;
 
+import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.unsafe.client.*;
 import java.io.*;
@@ -12,17 +13,15 @@ public class TS_StringUtils {
 
     //CASE-------------------------------------
     public static void setDefaultLocaleTurkish() {
-        Locale.setDefault(new Locale("tr", "TR"));
+        Locale.forLanguageTag("tr-TR");
     }
 
-    //ISSUE: https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html#toLowerCase()
     public static String toLowerCase(CharSequence source) {
-        return source.toString().toLowerCase(Locale.ROOT);
+        return TGS_CharSetCast.toLowerCase(source);
     }
 
-    //ISSUE: https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html#toLowerCase()
     public static String toUpperCase(CharSequence source) {
-        return source.toString().toLowerCase(Locale.ROOT);
+        return TGS_CharSetCast.toUpperCase(source);
     }
 
     public static void toLowerCase(List<String> target) {
@@ -91,7 +90,7 @@ public class TS_StringUtils {
     //STREAM-OP-----------------------------------------------------------------------------
     public static String toString(InputStream is0, Charset charset) {
         return TGS_UnSafe.compile(() -> {
-            try ( var is = is0) {
+            try (var is = is0) {
                 var bytes = is.readAllBytes();
                 return new String(bytes, charset);
             }
@@ -104,7 +103,7 @@ public class TS_StringUtils {
 
     public static void toStream(OutputStream os0, CharSequence data, Charset charset) {
         TGS_UnSafe.execute(() -> {
-            try ( var os = os0) {
+            try (var os = os0) {
                 var bytes = data.toString().getBytes(charset);
                 os.write(bytes);
             }
@@ -236,7 +235,7 @@ public class TS_StringUtils {
         final var insideblockComment_noNewLineYet = 3; // we want to have at least one new line in the result if the block is not inline.
         var currentState = outsideComment;
         var endResult = new StringBuilder();
-        try ( var s = new Scanner(code.toString())) {
+        try (var s = new Scanner(code.toString())) {
             s.useDelimiter("");
             while (s.hasNext()) {
                 var c = s.next();
