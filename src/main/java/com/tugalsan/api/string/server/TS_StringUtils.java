@@ -11,25 +11,14 @@ import java.util.stream.*;
 
 public class TS_StringUtils {
 
-    //CASE-------------------------------------
-    public static void setDefaultLocaleTurkish() {
-        Locale.forLanguageTag("tr-TR");
+    public static void toLocaleLowerCase(List<String> target) {
+        IntStream.range(0, target.size()).parallel()
+                .forEach(i -> target.set(i, TGS_CharSetCast.toLocaleLowerCase(target.get(i))));
     }
 
-    public static String toLowerCase(CharSequence source) {
-        return TGS_CharSetCast.toLowerCase(source);
-    }
-
-    public static String toUpperCase(CharSequence source) {
-        return TGS_CharSetCast.toUpperCase(source);
-    }
-
-    public static void toLowerCase(List<String> target) {
-        IntStream.range(0, target.size()).parallel().forEach(i -> target.set(i, toLowerCase(target.get(i))));
-    }
-
-    public static void toUpperCase(List<String> target) {
-        IntStream.range(0, target.size()).parallel().forEach(i -> target.set(i, toUpperCase(target.get(i))));
+    public static void toLocaleUpperCase(List<String> target) {
+        IntStream.range(0, target.size()).parallel()
+                .forEach(i -> target.set(i, TGS_CharSetCast.toLocaleUpperCase(target.get(i))));
     }
 
     //BYTE-OP-----------------------------------------------------------------------------
