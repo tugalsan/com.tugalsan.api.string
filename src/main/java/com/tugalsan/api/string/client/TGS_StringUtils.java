@@ -138,7 +138,7 @@ public class TGS_StringUtils {
             return null;
         }
         var prefix = TGS_StringUtils.concat("ERROR CAUSE: '", e.toString(), "'\n", "ERROR TREE:\n");
-        var sj = new StringJoiner("\n", prefix, null);
+        var sj = new StringJoiner("\n", prefix, "");
         Arrays.stream(e.getStackTrace()).forEachOrdered(ste -> sj.add(ste.toString()));
         return sj.toString();
     }
