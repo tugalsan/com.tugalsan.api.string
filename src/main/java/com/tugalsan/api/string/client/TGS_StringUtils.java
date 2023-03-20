@@ -1,5 +1,6 @@
 package com.tugalsan.api.string.client;
 
+import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.unsafe.client.*;
 import java.nio.charset.*;
 import java.util.*;
@@ -266,12 +267,12 @@ public class TGS_StringUtils {
     }
 
     public static String getBetween(CharSequence srcOrg, CharSequence fromTagOrg, CharSequence toTagOrg, boolean matchCase) {
-        var src = matchCase ? srcOrg.toString() : srcOrg.toString().toUpperCase(Locale.ROOT);
-        var fromTag = matchCase ? fromTagOrg.toString() : fromTagOrg.toString().toUpperCase(Locale.ROOT);
-        var toTag = matchCase ? toTagOrg.toString() : toTagOrg.toString().toUpperCase(Locale.ROOT);
-        if (src == null) {
+        if (srcOrg == null) {
             return null;
         }
+        var src = matchCase ? srcOrg.toString() : TGS_CharSetCast.toLocaleUpperCase(srcOrg);
+        var fromTag = matchCase ? fromTagOrg.toString() : TGS_CharSetCast.toLocaleUpperCase(fromTagOrg);
+        var toTag = matchCase ? toTagOrg.toString() : TGS_CharSetCast.toLocaleUpperCase(toTagOrg);
         var idxFrom = src.indexOf(fromTag);
         if (idxFrom == -1) {
             return null;
