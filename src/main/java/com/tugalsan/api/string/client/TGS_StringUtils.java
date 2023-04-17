@@ -51,7 +51,7 @@ public class TGS_StringUtils {
         if (idx == -1 || idx == internationalText.length() - 1) {
             return -1;
         }
-        if (TGS_UnSafe.compile(() -> Double.parseDouble(internationalText.replace(",", ".").trim()), e -> null) == null) {
+        if (TGS_UnSafe.call(() -> Double.parseDouble(internationalText.replace(",", ".").trim()), e -> null) == null) {
             return -1;
         }
         return idx;
