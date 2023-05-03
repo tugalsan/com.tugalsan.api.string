@@ -10,7 +10,8 @@ public class TGS_StringDouble {
     }
 
     public static boolean has(CharSequence inputText, boolean turkish) {
-        return inputText.toString().contains(dim(turkish));
+        var internationalText = (turkish ? inputText.toString().replace(",", ".") : inputText.toString()).trim();
+        return internationalText.contains(dim(turkish));
     }
 
     final public long left, right;
