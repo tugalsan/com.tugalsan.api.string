@@ -16,71 +16,8 @@ public class TGS_StringUtils {
         return toString(lst, "");
     }
 
-    public static String[] ifDouble_getParsed3(CharSequence inputText, boolean turkish, int supIdx) {
-        return new String[]{
-            inputText.toString().substring(0, supIdx),
-            turkish ? "," : ".",
-            inputText.toString().substring(supIdx + 1)
-        };
-    }
-
-    public static boolean hasDouble(CharSequence inputText, boolean turkish) {
-        var internationalText = turkish ? inputText.toString().replace(",", ".") : inputText.toString();
-        if (!internationalText.contains(".")) {
-            return false;
-        }
-        var tokens = internationalText.split(" ");
-        for (var token : tokens) {
-            if (!token.contains(".")) {
-                continue;
-            }
-            var idx = ifDouble_getSupIdx(token, turkish);
-            if (idx != -1) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static int ifDouble_getSupIdx(CharSequence inputText, boolean turkish) {
-        if (inputText.length() == 1) {
-            return -1;
-        }
-        var internationalText = (turkish ? inputText.toString().replace(",", ".") : inputText.toString()).trim();
-        var idx = internationalText.indexOf(".");
-        if (idx == -1 || idx == internationalText.length() - 1) {
-            return -1;
-        }
-        var left = inputText.toString().substring(0, idx);
-        var right = inputText.toString().substring(idx + 1);
-        if (TGS_UnSafe.call(() -> Integer.parseInt(left), e -> null) == null) {
-            return -1;
-        }
-        if (TGS_UnSafe.call(() -> Integer.parseInt(right), e -> null) == null) {
-            return -1;
-        }
-        return idx;
-    }
-
     public static String reverse(CharSequence data) {
         return new StringBuilder(data).reverse().toString();
-    }
-
-    public static String make2Chars(int value) {
-        return value > 9 ? "" + value : "0" + value;
-    }
-
-    public static String make4Chars(int value) {
-        var sValue = String.valueOf(value);
-        if (value > 999) {
-            return sValue.substring(sValue.length() - 4, sValue.length());
-        } else if (value > 99) {
-            return TGS_StringUtils.concat("0", sValue);
-        } else if (value > 9) {
-            return TGS_StringUtils.concat("00", sValue);
-        } else {
-            return TGS_StringUtils.concat("000", sValue);
-        }
     }
 
     public static boolean isNullOrEmptyOrHidden(CharSequence text) {
