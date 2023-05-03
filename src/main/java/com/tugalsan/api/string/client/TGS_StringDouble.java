@@ -5,11 +5,19 @@ import java.util.Optional;
 
 public class TGS_StringDouble {
 
+    public static String dim(boolean turkish) {
+        return turkish ? "," : ".";
+    }
+
+    public static boolean has(CharSequence inputText, boolean turkish) {
+        return inputText.toString().contains(dim(turkish));
+    }
+
     final public long left, right;
     final public boolean turkish;
 
     public String dim() {
-        return turkish ? "," : ".";
+        return dim(turkish);
     }
 
     public double val() {
