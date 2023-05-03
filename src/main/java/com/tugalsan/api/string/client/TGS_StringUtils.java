@@ -29,12 +29,12 @@ public class TGS_StringUtils {
         if (!internationalText.contains(".")) {
             return false;
         }
-        var tags = internationalText.split(" ");
-        for (String tag : tags) {
-            if (!tag.contains(".")) {
+        var tokens = internationalText.split(" ");
+        for (var token : tokens) {
+            if (!token.contains(".")) {
                 continue;
             }
-            var idx = ifDouble_getSupIdx(tag, turkish);
+            var idx = ifDouble_getSupIdx(token, turkish);
             if (idx != -1) {
                 return true;
             }
@@ -46,12 +46,17 @@ public class TGS_StringUtils {
         if (inputText.length() == 1) {
             return -1;
         }
-        var internationalText = turkish ? inputText.toString().replace(",", ".") : inputText.toString();
+        var internationalText = (turkish ? inputText.toString().replace(",", ".") : inputText.toString()).trim();
         var idx = internationalText.indexOf(".");
         if (idx == -1 || idx == internationalText.length() - 1) {
             return -1;
         }
-        if (TGS_UnSafe.call(() -> Double.parseDouble(internationalText.replace(",", ".").trim()), e -> null) == null) {
+        var left = inputText.toString().substring(0, idx);
+        var right = inputText.toString().substring(idx + 1);
+        if (TGS_UnSafe.call(() -> Double.parseDouble(left), e -> null) == null) {
+            return -1;
+        }
+        if (TGS_UnSafe.call(() -> Double.parseDouble(right), e -> null) == null) {
             return -1;
         }
         return idx;
