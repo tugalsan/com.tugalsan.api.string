@@ -53,10 +53,10 @@ public class TGS_StringUtils {
         }
         var left = inputText.toString().substring(0, idx);
         var right = inputText.toString().substring(idx + 1);
-        if (TGS_UnSafe.call(() -> Double.parseDouble(left), e -> null) == null) {
+        if (TGS_UnSafe.call(() -> Integer.parseInt(left), e -> null) == null) {
             return -1;
         }
-        if (TGS_UnSafe.call(() -> Double.parseDouble(right), e -> null) == null) {
+        if (TGS_UnSafe.call(() -> Integer.parseInt(right), e -> null) == null) {
             return -1;
         }
         return idx;
