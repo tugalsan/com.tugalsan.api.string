@@ -1,12 +1,15 @@
 package com.tugalsan.api.string.client;
 
 import com.tugalsan.api.charset.client.TGS_CharSetCast;
-import com.tugalsan.api.unsafe.client.*;
 import java.nio.charset.*;
 import java.util.*;
 import java.util.stream.*;
 
 public class TGS_StringUtils {
+
+    public static String concat(Object... s) {
+        return String.join("", String.valueOf(s));
+    }
 
     public static String concat(CharSequence... s) {
         return String.join("", s);
