@@ -9,7 +9,7 @@ public class TGS_StringDouble {
         return turkish ? "," : ".";
     }
 
-    public static boolean has(CharSequence inputText) {
+    public static boolean may(CharSequence inputText) {
         return inputText.toString().contains(dim(true)) || inputText.toString().contains(dim(false));
     }
 
@@ -21,7 +21,7 @@ public class TGS_StringDouble {
     }
 
     public double val() {
-        return Double.parseDouble(left + dim() + right);
+        return Double.parseDouble(left + "." + right);
     }
 
     private TGS_StringDouble(long left, long right, boolean turkish) {
@@ -34,7 +34,7 @@ public class TGS_StringDouble {
         return new TGS_StringDouble(left, right, turkish);
     }
 
-    public static Optional<TGS_StringDouble> ofDbl(CharSequence inputText, boolean turkish) {
+    public static Optional<TGS_StringDouble> of(CharSequence inputText, boolean turkish) {
         //VALIDATE
         if (inputText.length() == 1) {
             return Optional.empty();
