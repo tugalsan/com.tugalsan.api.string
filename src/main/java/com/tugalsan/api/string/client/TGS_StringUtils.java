@@ -232,11 +232,20 @@ public class TGS_StringUtils {
         return idxFrom == idxTo ? "" : srcOrg.toString().substring(idxFrom + 1, idxTo);
     }
 
-    public static String toString(float flt, boolean isTurkish) {
-        return toString((double) flt, isTurkish);
+    public static String toString(float flt) {
+        return toString((double) flt);
     }
 
-    public static String toString(double dbl, boolean isTurkish) {
+    public static String toString(float flt, TGS_CharSetCast.Locale2Cast locale2Cast) {
+        return toString((double) flt, locale2Cast);
+    }
+
+    public static String toString(double dbl) {
+        return toString(dbl, TGS_CharSetCast.LOCALE2CAST);
+    }
+
+    public static String toString(double dbl, TGS_CharSetCast.Locale2Cast locale2Cast) {
+        var isTurkish = locale2Cast == TGS_CharSetCast.Locale2Cast.TURKISH;
         var dblStr = String.valueOf(dbl);
         if (!isTurkish) {
             return dblStr;
