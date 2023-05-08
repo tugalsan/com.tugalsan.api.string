@@ -35,6 +35,10 @@ public class TGS_StringDouble {
         return new TGS_StringDouble(left, right, turkish);
     }
 
+    public static Optional<TGS_StringDouble> of(CharSequence inputText) {
+        return of(inputText, TGS_CharSetCast.LOCALE2CAST);
+    }
+
     public static Optional<TGS_StringDouble> of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set) {
         //VALIDATE
         if (inputText.length() == 1) {
