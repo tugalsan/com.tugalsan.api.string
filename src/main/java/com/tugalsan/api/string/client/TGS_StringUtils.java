@@ -245,9 +245,9 @@ public class TGS_StringUtils {
     }
 
     public static String toString(double dbl, TGS_CharSetCast.Locale2Cast locale2Cast) {
-        var isTurkish = locale2Cast == TGS_CharSetCast.Locale2Cast.TURKISH;
+        var turkish = locale2Cast == TGS_CharSetCast.Locale2Cast.TURKISH;
         var dblStr = String.valueOf(dbl);
-        if (!isTurkish) {
+        if (!turkish) {
             return dblStr;
         }
         if (!dblStr.contains(".")) {
