@@ -1,5 +1,6 @@
 package com.tugalsan.api.string.client;
 
+import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
 import java.util.Optional;
 
@@ -34,11 +35,12 @@ public class TGS_StringDouble {
         return new TGS_StringDouble(left, right, turkish);
     }
 
-    public static Optional<TGS_StringDouble> of(CharSequence inputText, boolean turkish) {
+    public static Optional<TGS_StringDouble> of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set) {
         //VALIDATE
         if (inputText.length() == 1) {
             return Optional.empty();
         }
+        var turkish = locale2Set == TGS_CharSetCast.Locale2Cast.TURKISH;
         var internationalText = (turkish ? inputText.toString().replace(",", ".") : inputText.toString()).trim();
         var idx = internationalText.indexOf(".");
         if (idx == -1 || idx == internationalText.length() - 1) {//IT HAS TO BE DOUBLE!!!
