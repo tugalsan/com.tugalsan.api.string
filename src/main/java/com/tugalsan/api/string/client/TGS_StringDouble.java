@@ -6,33 +6,32 @@ import java.util.Optional;
 
 public class TGS_StringDouble {
 
-    public static String dim(boolean turkish) {
-        return turkish ? "," : ".";
+    public static String dim(TGS_CharSetCast.Locale2Cast locale2Cast) {
+        return locale2Cast == TGS_CharSetCast.Locale2Cast.TURKISH ? "," : ".";
     }
 
     public static boolean may(CharSequence inputText) {
-        return inputText.toString().contains(dim(true)) || inputText.toString().contains(dim(false));
+        return inputText.toString().contains(dim(TGS_CharSetCast.Locale2Cast.TURKISH)) || inputText.toString().contains(dim(TGS_CharSetCast.Locale2Cast.OTHER));
     }
 
-    final public long left, right;
-    final public boolean turkish;
-
     public String dim() {
-        return dim(turkish);
+        return dim(locale2Cast);
     }
 
     public double val() {
         return Double.parseDouble(left + "." + right);
     }
 
-    private TGS_StringDouble(long left, long right, boolean turkish) {
+    private TGS_StringDouble(long left, long right, TGS_CharSetCast.Locale2Cast locale2Cast) {
         this.left = left;
         this.right = right;
-        this.turkish = turkish;
+        this.locale2Cast = locale2Cast;
     }
+    final public long left, right;
+    final public TGS_CharSetCast.Locale2Cast locale2Cast;
 
-    public static TGS_StringDouble of(long left, long right, boolean turkish) {
-        return new TGS_StringDouble(left, right, turkish);
+    public static TGS_StringDouble of(long left, long right, TGS_CharSetCast.Locale2Cast locale2Cast) {
+        return new TGS_StringDouble(left, right, locale2Cast);
     }
 
     public static Optional<TGS_StringDouble> of(CharSequence inputText) {
@@ -62,7 +61,7 @@ public class TGS_StringDouble {
         if (rightLng == null) {
             return Optional.empty();
         }
-        var obj = of(leftLng, rightLng, turkish);
+        var obj = of(leftLng, rightLng, locale2Set);
         return TGS_UnSafe.call(() -> {
             obj.val();//if not throws
             return Optional.of(obj);
