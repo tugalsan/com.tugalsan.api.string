@@ -7,6 +7,7 @@ import java.util.stream.*;
 
 public class TGS_StringUtils {
 
+    @Deprecated //String.valueOf is calling [Object.324o234u2 rather than calling toString
     public static String concat(Object... s) {
         return String.join("", String.valueOf(s));
     }
