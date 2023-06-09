@@ -67,6 +67,10 @@ public class TS_StringUtils {
     }
 
     //STREAM-OP-----------------------------------------------------------------------------
+    public static String toString(InputStream is0) {
+        return toString(is0, StandardCharsets.UTF_8);
+    }
+
     public static String toString(InputStream is0, Charset charset) {
         return TGS_UnSafe.call(() -> {
             try (var is = is0) {
