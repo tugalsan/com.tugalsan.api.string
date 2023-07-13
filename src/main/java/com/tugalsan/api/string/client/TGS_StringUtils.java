@@ -298,4 +298,8 @@ public class TGS_StringUtils {
     public static String toStringFromCodePoints(int p) {
         return new String(Character.toChars(p));
     }
+
+    public static String[] parseToLines(CharSequence content) {
+        return content.toString().split("\\r?\\n");
+    }
 }
