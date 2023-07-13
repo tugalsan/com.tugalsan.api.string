@@ -11,7 +11,6 @@ public class TGS_StringUtils {
 //    public static String concat(Object... s) {
 //        return String.join("", String.valueOf(s));
 //    }
-
     public static String concat(CharSequence... s) {
         return String.join("", s);
     }
@@ -301,5 +300,29 @@ public class TGS_StringUtils {
 
     public static String[] parseToLines(CharSequence content) {
         return content.toString().split("\\r?\\n");
+    }
+
+    public static List<String> parseByEmptyLines(CharSequence content) {
+        var lines = parseToLines(content);
+        List<String> result = new ArrayList();
+        var sb = new StringBuilder();
+        for (var line : lines) {
+            if (!isNullOrEmpty(line)) {
+                if (!sb.isEmpty()) {
+                    sb.append("\n");
+                }
+                sb.append(line);
+                continue;
+            }
+            if (!sb.isEmpty()) {
+                result.add(sb.toString());
+                sb.setLength(0);
+            }
+        }
+        if (!sb.isEmpty()) {
+            result.add(sb.toString());
+            sb.setLength(0);
+        }
+        return result;
     }
 }
