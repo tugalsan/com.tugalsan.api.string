@@ -308,21 +308,25 @@ public class TGS_StringUtils {
         var sb = new StringBuilder();
         for (var line : lines) {
             if (!isNullOrEmpty(line)) {
-                if (!sb.isEmpty()) {
+                if (!isEmpty(sb)) {
                     sb.append("\n");
                 }
                 sb.append(line);
                 continue;
             }
-            if (!sb.isEmpty()) {
+            if (!isEmpty(sb)) {
                 result.add(sb.toString());
                 sb.setLength(0);
             }
         }
-        if (!sb.isEmpty()) {
+        if (!isEmpty(sb)) {
             result.add(sb.toString());
             sb.setLength(0);
         }
         return result;
+    }
+    
+    public static boolean isEmpty(StringBuilder sb){//GWT DOES NOT LIKE sb.isEmpty()
+        return sb.length() == 0;
     }
 }
