@@ -21,7 +21,11 @@ public class TGS_StringDouble {
     }
 
     public double val() {
-        return Double.parseDouble(left + "." + IntStream.range(0, right_zero_onTheFront).mapToObj(i -> "0").collect(Collectors.joining()) + right);
+        return Double.parseDouble(left + "." + rightZeros() + right);
+    }
+
+    public String rightZeros() {
+        return IntStream.range(0, right_zero_onTheFront).mapToObj(i -> "0").collect(Collectors.joining());
     }
 
     private TGS_StringDouble(long left, long right, int right_zero_onTheFront, TGS_CharSetCast.Locale2Cast locale2Cast) {
