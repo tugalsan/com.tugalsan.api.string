@@ -70,9 +70,7 @@ public class TGC_StringUtils {
             while (suffix.length() < charSizeAfterDot) {
                 suffix += "0";
             }
-            var result = TGS_StringUtils.concat(prefix, ".", suffix);
-//            d("result0:" + result);
-            return result;
+            return TGS_StringUtils.concat(prefix, ".", suffix);
         }
         //if (splits.length == 2)...
         var prefix = splits[0];
@@ -86,16 +84,12 @@ public class TGC_StringUtils {
             while (suffix.length() < charSizeAfterDot) {
                 suffix += "0";
             }
-            var result = TGS_StringUtils.concat(prefix, ".", suffix);
-//            d("result1:" + result);
-            return result;
+            return TGS_StringUtils.concat(prefix, ".", suffix);
         }
         //if (suffix.length() > charSizeAfterDot)...
 //        d("toString->suffix.length():" + suffix.length() + ", charSizeAfterDot:" + charSizeAfterDot + ", suffix.length() > charSizeAfterDot:" + (suffix.length() > charSizeAfterDot));
         suffix = suffix.substring(0, charSizeAfterDot);
-        var result = TGS_StringUtils.concat(prefix, ".", suffix);
-//        d("result2:" + result);
-        return result;
+        return TGS_StringUtils.concat(prefix, ".", suffix);
     }
 
 //    private static native void d(String text) /*-{console.log('%c ' + text, 'color: gray; font-weight: bold; background-color: #242424;');}-*/;

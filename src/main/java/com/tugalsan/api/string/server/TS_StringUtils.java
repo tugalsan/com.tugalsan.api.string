@@ -227,15 +227,9 @@ public class TS_StringUtils {
                         if (c.equals("/") && s.hasNext()) {
                             var c2 = s.next();
                             switch (c2) {
-                                case "/":
-                                    currentState = insideLineComment;
-                                    break;
-                                case "*":
-                                    currentState = insideblockComment_noNewLineYet;
-                                    break;
-                                default:
-                                    endResult.append(c).append(c2);
-                                    break;
+                                case "/" -> currentState = insideLineComment;
+                                case "*" -> currentState = insideblockComment_noNewLineYet;
+                                default -> endResult.append(c).append(c2);
                             }
                         } else {
                             endResult.append(c);
