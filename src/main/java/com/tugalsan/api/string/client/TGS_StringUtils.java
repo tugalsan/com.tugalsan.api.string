@@ -262,10 +262,7 @@ public class TGS_StringUtils {
     }
 
     public static String removeHidden(CharSequence text) {
-        if (text == null) {
-            return null;
-        }
-        return text.toString().replace("\n", "").replace("\r", "").replaceAll("\\p{C}", "?");
+        return TGS_CharSetCast.removeHidden(text);
     }
 
     public static String removeCharFromEnd(CharSequence text, int charCount) {
