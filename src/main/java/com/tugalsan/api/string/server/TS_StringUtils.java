@@ -6,10 +6,36 @@ import com.tugalsan.api.unsafe.client.*;
 import java.io.*;
 import java.nio.charset.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.*;
 import java.util.stream.*;
 
 public class TS_StringUtils {
+
+    public String camelCase(CharSequence text) {
+        var buffer = new StringBuilder();
+        var wi = new AtomicInteger(-1);
+        TS_StringUtils.toList_spc(text).forEach(word -> {
+            if (wi.incrementAndGet() != 0) {
+                buffer.append(" ");
+            }
+            var ci = new AtomicInteger(-1);
+            word.codePoints().forEachOrdered(codePoint -> {
+                String codePointAsStr;
+                if (Character.isBmpCodePoint(codePoint)) {
+                    codePointAsStr = String.valueOf((char) codePoint);
+                } else {
+                    codePointAsStr = String.valueOf(codePoint);
+                }
+                if (ci.incrementAndGet() == 0) {
+                    buffer.append(TGS_CharSetCast.toLocaleUpperCase(codePointAsStr));
+                } else {
+                    buffer.append(TGS_CharSetCast.toLocaleLowerCase(codePointAsStr));
+                }
+            });
+        });
+        return buffer.toString();
+    }
 
     public static void toLocaleLowerCase(List<String> target) {
         IntStream.range(0, target.size()).parallel()
@@ -227,9 +253,12 @@ public class TS_StringUtils {
                         if (c.equals("/") && s.hasNext()) {
                             var c2 = s.next();
                             switch (c2) {
-                                case "/" -> currentState = insideLineComment;
-                                case "*" -> currentState = insideblockComment_noNewLineYet;
-                                default -> endResult.append(c).append(c2);
+                                case "/" ->
+                                    currentState = insideLineComment;
+                                case "*" ->
+                                    currentState = insideblockComment_noNewLineYet;
+                                default ->
+                                    endResult.append(c).append(c2);
                             }
                         } else {
                             endResult.append(c);

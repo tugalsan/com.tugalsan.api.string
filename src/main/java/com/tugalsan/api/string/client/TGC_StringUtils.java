@@ -1,9 +1,36 @@
 package com.tugalsan.api.string.client;
 
+import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.*;
 
 public class TGC_StringUtils {
+
+    public String camelCase(CharSequence text) {
+        var buffer = new StringBuilder();
+        var wi = new AtomicInteger(-1);
+        TGC_StringUtils.toList_spc(text).forEach(word -> {
+            if (wi.incrementAndGet() != 0) {
+                buffer.append(" ");
+            }
+            var ci = new AtomicInteger(-1);
+            word.codePoints().forEachOrdered(codePoint -> {
+                String codePointAsStr;
+                if (Character.isBmpCodePoint(codePoint)) {
+                    codePointAsStr = String.valueOf((char) codePoint);
+                } else {
+                    codePointAsStr = String.valueOf(codePoint);
+                }
+                if (ci.incrementAndGet() == 0) {
+                    buffer.append(TGS_CharSetCast.toLocaleUpperCase(codePointAsStr));
+                } else {
+                    buffer.append(TGS_CharSetCast.toLocaleLowerCase(codePointAsStr));
+                }
+            });
+        });
+        return buffer.toString();
+    }
 
     public static native boolean matches(CharSequence regExp, CharSequence value) /*-{ return value.search(new RegExp(regExp)) != -1; }-*/;
 //    private static String regexChars = ".$|()[{^?*+\\";
