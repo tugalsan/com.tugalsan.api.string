@@ -12,7 +12,7 @@ import java.util.stream.*;
 
 public class TS_StringUtils {
 
-    public String camelCase(CharSequence text) {
+    public static String camelCase(CharSequence text) {
         var buffer = new StringBuilder();
         var wi = new AtomicInteger(-1);
         TS_StringUtils.toList_spc(text).forEach(word -> {
