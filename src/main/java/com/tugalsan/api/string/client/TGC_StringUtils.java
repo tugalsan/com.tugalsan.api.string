@@ -7,6 +7,7 @@ import java.util.stream.*;
 
 public class TGC_StringUtils {
 
+    @Deprecated //NOT WORKING ON UTF letters
     public String camelCase(CharSequence text) {
         var buffer = new StringBuilder();
         var wi = new AtomicInteger(-1);
@@ -15,17 +16,11 @@ public class TGC_StringUtils {
                 buffer.append(" ");
             }
             var ci = new AtomicInteger(-1);
-            word.codePoints().forEachOrdered(codePoint -> {
-                String codePointAsStr;
-                if (Character.isBmpCodePoint(codePoint)) {
-                    codePointAsStr = String.valueOf((char) codePoint);
-                } else {
-                    codePointAsStr = String.valueOf(codePoint);
-                }
+            word.chars().mapToObj(ch -> String.valueOf(ch)).forEach(chAsStr -> {
                 if (ci.incrementAndGet() == 0) {
-                    buffer.append(TGS_CharSetCast.toLocaleUpperCase(codePointAsStr));
+                    buffer.append(TGS_CharSetCast.toLocaleUpperCase(chAsStr));
                 } else {
-                    buffer.append(TGS_CharSetCast.toLocaleLowerCase(codePointAsStr));
+                    buffer.append(TGS_CharSetCast.toLocaleLowerCase(chAsStr));
                 }
             });
         });
