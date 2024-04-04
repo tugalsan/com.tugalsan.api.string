@@ -2,7 +2,7 @@ package com.tugalsan.api.string.server;
 
 import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.string.client.*;
-import com.tugalsan.api.unsafe.client.*;
+import com.tugalsan.api.union.client.TGS_Union;
 import java.io.*;
 import java.nio.charset.*;
 import java.util.*;
@@ -93,30 +93,31 @@ public class TS_StringUtils {
     }
 
     //STREAM-OP-----------------------------------------------------------------------------
-    public static String toString(InputStream is0) {
+    public static TGS_Union<String> toString(InputStream is0) {
         return toString(is0, StandardCharsets.UTF_8);
     }
 
-    public static String toString(InputStream is0, Charset charset) {
-        return TGS_UnSafe.call(() -> {
-            try (var is = is0) {
-                var bytes = is.readAllBytes();
-                return new String(bytes, charset);
-            }
-        });
+    public static TGS_Union<String> toString(InputStream is0, Charset charset) {
+        try (var is = is0) {
+            var bytes = is.readAllBytes();
+            return TGS_Union.of(new String(bytes, charset));
+        } catch (IOException ex) {
+            return TGS_Union.ofThrowable(ex);
+        }
     }
 
-    public static void toStream(OutputStream os, CharSequence data) {
-        toStream(os, data, StandardCharsets.UTF_8);
+    public static TGS_Union<Boolean> toStream(OutputStream os, CharSequence data) {
+        return toStream(os, data, StandardCharsets.UTF_8);
     }
 
-    public static void toStream(OutputStream os0, CharSequence data, Charset charset) {
-        TGS_UnSafe.run(() -> {
-            try (var os = os0) {
-                var bytes = data.toString().getBytes(charset);
-                os.write(bytes);
-            }
-        });
+    public static TGS_Union<Boolean> toStream(OutputStream os0, CharSequence data, Charset charset) {
+        try (var os = os0) {
+            var bytes = data.toString().getBytes(charset);
+            os.write(bytes);
+            return TGS_Union.of(true);
+        } catch (IOException ex) {
+            return TGS_Union.ofThrowable(ex);
+        }
     }
 
     //PARSE-BASIC------------------------------------------------------------------------
