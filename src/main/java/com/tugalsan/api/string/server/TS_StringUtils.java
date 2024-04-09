@@ -102,7 +102,7 @@ public class TS_StringUtils {
             var bytes = is.readAllBytes();
             return TGS_Union.of(new String(bytes, charset));
         } catch (IOException ex) {
-            return TGS_Union.ofThrowable(ex);
+            return TGS_Union.ofExcuse(ex);
         }
     }
 
@@ -116,7 +116,7 @@ public class TS_StringUtils {
             os.write(bytes);
             return TGS_Union.of(true);
         } catch (IOException ex) {
-            return TGS_Union.ofThrowable(ex);
+            return TGS_Union.ofExcuse(ex);
         }
     }
 

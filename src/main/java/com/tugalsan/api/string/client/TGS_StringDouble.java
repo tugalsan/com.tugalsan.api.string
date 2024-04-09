@@ -48,7 +48,7 @@ public class TGS_StringDouble {
     public static TGS_Union<TGS_StringDouble> of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set) {
         //VALIDATE
         if (inputText.length() == 1) {
-            return TGS_Union.ofThrowable(
+            return TGS_Union.ofExcuse(
                     TGS_StringDouble.class.getSimpleName(),
                     "of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set)",
                     "inputText.length() == 1"
@@ -58,7 +58,7 @@ public class TGS_StringDouble {
         var internationalText = (turkish ? inputText.toString().replace(",", ".") : inputText.toString()).trim();
         var idx = internationalText.indexOf(".");
         if (idx == -1 || idx == internationalText.length() - 1) {//IT HAS TO BE DOUBLE!!!
-            return TGS_Union.ofThrowable(
+            return TGS_Union.ofExcuse(
                     TGS_StringDouble.class.getSimpleName(),
                     "of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set)",
                     "idx == -1 || idx == internationalText.length() - 1"
@@ -70,7 +70,7 @@ public class TGS_StringDouble {
         try {
             leftLng = Long.valueOf(left);
         } catch (NumberFormatException e) {
-            return TGS_Union.ofThrowable(
+            return TGS_Union.ofExcuse(
                     TGS_StringDouble.class.getSimpleName(),
                     "of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set)",
                     "leftLng == null"
@@ -82,7 +82,7 @@ public class TGS_StringDouble {
         try {
             rightLng = Long.valueOf(right);
         } catch (NumberFormatException e) {
-            return TGS_Union.ofThrowable(
+            return TGS_Union.ofExcuse(
                     TGS_StringDouble.class.getSimpleName(),
                     "of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set)",
                     "rightLng == null"
@@ -94,7 +94,7 @@ public class TGS_StringDouble {
         try {//TEST
             obj.val();
         } catch (NumberFormatException e) {
-            return TGS_Union.ofThrowable(
+            return TGS_Union.ofExcuse(
                     TGS_StringDouble.class.getSimpleName(),
                     "of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set)",
                     "obj.val() == NumberFormatException"
