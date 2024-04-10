@@ -3,6 +3,7 @@ package com.tugalsan.api.string.server;
 import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.union.client.TGS_Union;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import java.io.*;
 import java.nio.charset.*;
 import java.util.*;
@@ -106,17 +107,17 @@ public class TS_StringUtils {
         }
     }
 
-    public static TGS_Union<Boolean> toStream(OutputStream os, CharSequence data) {
+    public static TGS_UnionExcuse toStream(OutputStream os, CharSequence data) {
         return toStream(os, data, StandardCharsets.UTF_8);
     }
 
-    public static TGS_Union<Boolean> toStream(OutputStream os0, CharSequence data, Charset charset) {
+    public static TGS_UnionExcuse toStream(OutputStream os0, CharSequence data, Charset charset) {
         try (var os = os0) {
             var bytes = data.toString().getBytes(charset);
             os.write(bytes);
-            return TGS_Union.of(true);
+            return TGS_UnionExcuse.ofVoid();
         } catch (IOException ex) {
-            return TGS_Union.ofExcuse(ex);
+            return TGS_UnionExcuse.ofExcuse(ex);
         }
     }
 
