@@ -1,7 +1,7 @@
 package com.tugalsan.api.string.client;
 
 import com.tugalsan.api.charset.client.TGS_CharSetCast;
-import com.tugalsan.api.union.client.TGS_Union;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -41,14 +41,14 @@ public class TGS_StringDouble {
         return new TGS_StringDouble(left, right, right_zero_onTheFront, locale2Cast);
     }
 
-    public static TGS_Union<TGS_StringDouble> of(CharSequence inputText) {
+    public static TGS_UnionExcuse<TGS_StringDouble> of(CharSequence inputText) {
         return of(inputText, TGS_CharSetCast.LOCALE2CAST);
     }
 
-    public static TGS_Union<TGS_StringDouble> of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set) {
+    public static TGS_UnionExcuse<TGS_StringDouble> of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set) {
         //VALIDATE
         if (inputText.length() == 1) {
-            return TGS_Union.ofExcuse(
+            return TGS_UnionExcuse.ofExcuse(
                     TGS_StringDouble.class.getSimpleName(),
                     "of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set)",
                     "inputText.length() == 1"
@@ -58,7 +58,7 @@ public class TGS_StringDouble {
         var internationalText = (turkish ? inputText.toString().replace(",", ".") : inputText.toString()).trim();
         var idx = internationalText.indexOf(".");
         if (idx == -1 || idx == internationalText.length() - 1) {//IT HAS TO BE DOUBLE!!!
-            return TGS_Union.ofExcuse(
+            return TGS_UnionExcuse.ofExcuse(
                     TGS_StringDouble.class.getSimpleName(),
                     "of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set)",
                     "idx == -1 || idx == internationalText.length() - 1"
@@ -70,7 +70,7 @@ public class TGS_StringDouble {
         try {
             leftLng = Long.valueOf(left);
         } catch (NumberFormatException e) {
-            return TGS_Union.ofExcuse(
+            return TGS_UnionExcuse.ofExcuse(
                     TGS_StringDouble.class.getSimpleName(),
                     "of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set)",
                     "leftLng == null"
@@ -82,7 +82,7 @@ public class TGS_StringDouble {
         try {
             rightLng = Long.valueOf(right);
         } catch (NumberFormatException e) {
-            return TGS_Union.ofExcuse(
+            return TGS_UnionExcuse.ofExcuse(
                     TGS_StringDouble.class.getSimpleName(),
                     "of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set)",
                     "rightLng == null"
@@ -94,12 +94,12 @@ public class TGS_StringDouble {
         try {//TEST
             obj.val();
         } catch (NumberFormatException e) {
-            return TGS_Union.ofExcuse(
+            return TGS_UnionExcuse.ofExcuse(
                     TGS_StringDouble.class.getSimpleName(),
                     "of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set)",
                     "obj.val() == NumberFormatException"
             );
         }
-        return TGS_Union.of(obj);
+        return TGS_UnionExcuse.of(obj);
     }
 }
