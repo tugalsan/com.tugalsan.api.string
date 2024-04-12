@@ -323,7 +323,7 @@ public class TGS_StringUtils {
         return result;
     }
     
-    public static boolean isEmpty(StringBuilder sb){//GWT DOES NOT LIKE sb.isEmpty()
+    public static boolean isEmpty(CharSequence sb){//GWT DOES NOT LIKE sb.isEmpty()
         return sb.length() == 0;
     }
 }
