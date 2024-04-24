@@ -1,6 +1,6 @@
 package com.tugalsan.api.string.server;
 
-import com.tugalsan.api.charset.client.TGS_CharSet;
+import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.unsafe.client.*;
 import java.io.*;
@@ -28,9 +28,9 @@ public class TS_StringUtils {
                     codePointAsStr = String.valueOf(codePoint);
                 }
                 if (ci.incrementAndGet() == 0) {
-                    buffer.append(TGS_CharSet.cmn().languageDefault().toUpperCase(codePointAsStr));
+                    buffer.append(TGS_CharSetCast.current().toUpperCase(codePointAsStr));
                 } else {
-                    buffer.append(TGS_CharSet.cmn().languageDefault().toLowerCase(codePointAsStr));
+                    buffer.append(TGS_CharSetCast.current().toLowerCase(codePointAsStr));
                 }
             });
         });
@@ -39,12 +39,12 @@ public class TS_StringUtils {
 
     public static void toLocaleLowerCase(List<String> target) {
         IntStream.range(0, target.size()).parallel()
-                .forEach(i -> target.set(i, TGS_CharSet.cmn().languageDefault().toLowerCase(target.get(i))));
+                .forEach(i -> target.set(i, TGS_CharSetCast.current().toLowerCase(target.get(i))));
     }
 
     public static void toLocaleUpperCase(List<String> target) {
         IntStream.range(0, target.size()).parallel()
-                .forEach(i -> target.set(i, TGS_CharSet.cmn().languageDefault().toUpperCase(target.get(i))));
+                .forEach(i -> target.set(i, TGS_CharSetCast.current().toUpperCase(target.get(i))));
     }
 
     //BYTE-OP-----------------------------------------------------------------------------

@@ -1,7 +1,8 @@
 package com.tugalsan.api.string.client;
 
 import com.tugalsan.api.charset.client.TGS_CharSet;
-import com.tugalsan.api.charset.client.TGS_CharSet;
+import com.tugalsan.api.charset.client.TGS_CharSetCast;
+import com.tugalsan.api.charset.client.TGS_CharSetLocaleTypes;
 import java.nio.charset.*;
 import java.util.*;
 import java.util.stream.*;
@@ -216,9 +217,9 @@ public class TGS_StringUtils {
         if (srcOrg == null) {
             return null;
         }
-        var src = matchCase ? srcOrg.toString() : TGS_CharSet.cmn().languageDefault().toUpperCase(srcOrg);
-        var fromTag = matchCase ? fromTagOrg.toString() : TGS_CharSet.cmn().languageDefault().toUpperCase(fromTagOrg);
-        var toTag = matchCase ? toTagOrg.toString() : TGS_CharSet.cmn().languageDefault().toUpperCase(toTagOrg);
+        var src = matchCase ? srcOrg.toString() : TGS_CharSetCast.current().toUpperCase(srcOrg);
+        var fromTag = matchCase ? fromTagOrg.toString() : TGS_CharSetCast.current().toUpperCase(fromTagOrg);
+        var toTag = matchCase ? toTagOrg.toString() : TGS_CharSetCast.current().toUpperCase(toTagOrg);
         var idxFrom = src.indexOf(fromTag);
         if (idxFrom == -1) {
             return null;
@@ -237,16 +238,16 @@ public class TGS_StringUtils {
         return toString((double) flt);
     }
 
-    public static String toString(float flt, TGS_CharSet.CommonGwt.Language language) {
-        return toString((double) flt, language);
+    public static String toString(float flt, TGS_CharSetLocaleTypes type) {
+        return toString((double) flt, type);
     }
 
     public static String toString(double dbl) {
-        return toString(dbl, TGS_CharSet.cmn().languageDefault());
+        return toString(dbl, TGS_CharSetCast.current().localType);
     }
 
-    public static String toString(double dbl, TGS_CharSet.CommonGwt.Language language) {
-        var turkish = language.equals(TGS_CharSet.cmn().languageTurkish());
+    public static String toString(double dbl, TGS_CharSetLocaleTypes type) {
+        var turkish = type.equals(TGS_CharSetCast.typed(type));
         var dblStr = String.valueOf(dbl);
         if (!turkish) {
             return dblStr;
@@ -323,8 +324,8 @@ public class TGS_StringUtils {
         }
         return result;
     }
-    
-    public static boolean isEmpty(StringBuilder sb){//GWT DOES NOT LIKE sb.isEmpty()
+
+    public static boolean isEmpty(StringBuilder sb) {//GWT DOES NOT LIKE sb.isEmpty()
         return sb.length() == 0;
     }
 }
