@@ -1,5 +1,6 @@
 package com.tugalsan.api.string.client;
 
+import com.tugalsan.api.charset.client.TGS_CharSet;
 import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import java.nio.charset.*;
 import java.util.*;
@@ -262,7 +263,7 @@ public class TGS_StringUtils {
     }
 
     public static String removeHidden(CharSequence text) {
-        return TGS_CharSetCast.removeHidden(text);
+        return TGS_CharSet.cmn().removeHidden(text);
     }
 
     public static String removeCharFromEnd(CharSequence text, int charCount) {
