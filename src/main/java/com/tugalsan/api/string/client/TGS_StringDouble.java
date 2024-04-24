@@ -1,6 +1,6 @@
 package com.tugalsan.api.string.client;
 
-import com.tugalsan.api.charset.client.TGS_CharSetCast;
+import com.tugalsan.api.charset.client.TGS_CharSet;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,16 +8,18 @@ import java.util.stream.IntStream;
 
 public class TGS_StringDouble {
 
-    public static String dim(TGS_CharSetCast.Locale2Cast locale2Cast) {
-        return locale2Cast == TGS_CharSetCast.Locale2Cast.TURKISH ? "," : ".";
-    }
-
     public static boolean may(CharSequence inputText) {
-        return inputText.toString().contains(dim(TGS_CharSetCast.Locale2Cast.TURKISH)) || inputText.toString().contains(dim(TGS_CharSetCast.Locale2Cast.OTHER));
+        if (inputText.toString().contains(TGS_CharSet.cmn().languageTurkish().dim())) {
+            return true;
+        }
+        if (inputText.toString().contains(TGS_CharSet.cmn().languageEnglish().dim())) {
+            return true;
+        }
+        return false;
     }
 
     public String dim() {
-        return dim(locale2Cast);
+        return language.dim();
     }
 
     public double val() {
@@ -28,30 +30,30 @@ public class TGS_StringDouble {
         return IntStream.range(0, right_zero_onTheFront).mapToObj(i -> "0").collect(Collectors.joining());
     }
 
-    private TGS_StringDouble(long left, long right, int right_zero_onTheFront, TGS_CharSetCast.Locale2Cast locale2Cast) {
+    private TGS_StringDouble(long left, long right, int right_zero_onTheFront, TGS_CharSet.CommonGwt.Language language) {
         this.left = left;
         this.right = right;
         this.right_zero_onTheFront = right_zero_onTheFront;
-        this.locale2Cast = locale2Cast;
+        this.language = language;
     }
     final public long left, right;
     final public int right_zero_onTheFront;
-    final public TGS_CharSetCast.Locale2Cast locale2Cast;
+    final public TGS_CharSet.CommonGwt.Language language;
 
-    public static TGS_StringDouble of(long left, long right, int right_zero_onTheFront, TGS_CharSetCast.Locale2Cast locale2Cast) {
-        return new TGS_StringDouble(left, right, right_zero_onTheFront, locale2Cast);
+    public static TGS_StringDouble of(long left, long right, int right_zero_onTheFront, TGS_CharSet.CommonGwt.Language language) {
+        return new TGS_StringDouble(left, right, right_zero_onTheFront, language);
     }
 
     public static Optional<TGS_StringDouble> of(CharSequence inputText) {
-        return of(inputText, TGS_CharSetCast.LOCALE2CAST);
+        return of(inputText, TGS_CharSet.cmn().languageDefault());
     }
 
-    public static Optional<TGS_StringDouble> of(CharSequence inputText, TGS_CharSetCast.Locale2Cast locale2Set) {
+    public static Optional<TGS_StringDouble> of(CharSequence inputText, TGS_CharSet.CommonGwt.Language language) {
         //VALIDATE
         if (inputText.length() == 1) {
             return Optional.empty();
         }
-        var turkish = locale2Set == TGS_CharSetCast.Locale2Cast.TURKISH;
+        var turkish = TGS_CharSet.cmn().languageTurkish().equals(language);
         var internationalText = (turkish ? inputText.toString().replace(",", ".") : inputText.toString()).trim();
         var idx = internationalText.indexOf(".");
         if (idx == -1 || idx == internationalText.length() - 1) {//IT HAS TO BE DOUBLE!!!
@@ -71,7 +73,7 @@ public class TGS_StringDouble {
         }
         //CALC right_zero_onTheFront
         var right_zero_onTheFront = right.length() - String.valueOf(rightLng).length();
-        var obj = of(leftLng, rightLng, right_zero_onTheFront, locale2Set);
+        var obj = of(leftLng, rightLng, right_zero_onTheFront, language);
         return TGS_UnSafe.call(() -> {
             obj.val();//if not throws
             return Optional.of(obj);
