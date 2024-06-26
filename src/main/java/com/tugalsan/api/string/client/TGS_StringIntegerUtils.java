@@ -11,11 +11,11 @@ public class TGS_StringIntegerUtils {
         if (value > 999) {
             return sValue.substring(sValue.length() - 4, sValue.length());
         } else if (value > 99) {
-            return TGS_StringUtils.concat("0", sValue);
+            return TGS_StringUtils.cmn().concat("0", sValue);
         } else if (value > 9) {
-            return TGS_StringUtils.concat("00", sValue);
+            return TGS_StringUtils.cmn().concat("00", sValue);
         } else {
-            return TGS_StringUtils.concat("000", sValue);
+            return TGS_StringUtils.cmn().concat("000", sValue);
         }
     }
 }
