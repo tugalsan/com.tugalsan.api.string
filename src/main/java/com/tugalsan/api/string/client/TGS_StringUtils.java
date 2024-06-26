@@ -753,8 +753,8 @@ public class TGS_StringUtils {
             return str;
         }
 
-        public String toStringFromCodePoints(int p) {
-            return new String(Character.toChars(p));
+        public String toStringFromCodePoints(int codePoint) {
+            return new String(Character.toChars(codePoint));
         }
 
         public String[] parseToLines(CharSequence content) {
