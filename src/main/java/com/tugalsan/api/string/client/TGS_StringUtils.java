@@ -322,7 +322,7 @@ public class TGS_StringUtils {
         @GwtIncompatible
         public List<String> toList_ln(CharSequence source) {
             List<String> dst = new ArrayList();
-            toList_tab(source, dst);
+            toList_ln(source, dst);
             return dst;
         }
 
