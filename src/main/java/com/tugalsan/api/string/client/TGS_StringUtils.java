@@ -320,6 +320,30 @@ public class TGS_StringUtils {
         }
 
         @GwtIncompatible
+        public List<String> toList_ln(CharSequence source) {
+            List<String> dst = new ArrayList();
+            toList_tab(source, dst);
+            return dst;
+        }
+
+        @GwtIncompatible
+        public void toList_ln(CharSequence source, List<String> dst) {
+            var delimiterOrRegex = " ";
+            source = removeConsecutiveText(source.toString().trim(), "\n");
+            toList(source, dst, delimiterOrRegex);
+
+            var from = 0;
+            var to = dst.size();
+            var by = 1;
+            IntStream.iterate(to - 1, i -> i - by).limit(to - from).forEach(i -> {
+                var str = dst.get(i);
+                if (TGS_StringUtils.cmn().isNullOrEmpty(str)) {
+                    dst.remove(i);
+                }
+            });
+        }
+
+        @GwtIncompatible
         public String removeConsecutiveText(CharSequence text, CharSequence trimTag) {
             var textStr = text.toString();
             var trimTagStr = trimTag.toString();
@@ -418,9 +442,9 @@ public class TGS_StringUtils {
                         case outsideComment:
                             if (c.equals("/") && s.hasNext()) {
                                 var c2 = s.next();
-                                if (c2.equals("/")){
+                                if (c2.equals("/")) {
                                     currentState = insideLineComment;
-                                } else if (c2.equals("*")){
+                                } else if (c2.equals("*")) {
                                     currentState = insideblockComment_noNewLineYet;
                                 } else {
                                     endResult.append(c).append(c2);
@@ -658,6 +682,10 @@ public class TGS_StringUtils {
 
         public String toString_tab(Object[] data) {
             return toString(data, "\t");
+        }
+
+        public String toString_ln(Object[] data) {
+            return toString(data, "\n");
         }
 
         public String toString_spc(Object[] data) {
