@@ -98,8 +98,31 @@ public class TGS_StringUtils {
         }
 
         public void toList_spc(CharSequence src, List<String> dst) {
-            var delimiterOrRegex = " ";
-            src = TGS_StringUtils.cmn().removeConsecutive(src.toString().trim(), " ");
+            toList_delimiterOrRegex(src, dst, " ");
+        }
+
+        public List<String> toList_tab(CharSequence src) {
+            List<String> dst = new ArrayList();
+            toList_tab(src, dst);
+            return dst;
+        }
+
+        public void toList_tab(CharSequence src, List<String> dst) {
+            toList_delimiterOrRegex(src, dst, "\t");
+        }
+
+        public List<String> toList_ln(CharSequence src) {
+            List<String> dst = new ArrayList();
+            toList_ln(src, dst);
+            return dst;
+        }
+
+        public void toList_ln(CharSequence src, List<String> dst) {
+            toList_delimiterOrRegex(src, dst, "\n");
+        }
+
+        public void toList_delimiterOrRegex(CharSequence src, List<String> dst, CharSequence delimiterOrRegex) {
+            src = TGS_StringUtils.cmn().removeConsecutive(src.toString().trim(), delimiterOrRegex);
             toList(src, dst, delimiterOrRegex);
 
             var from = 0;
@@ -280,19 +303,7 @@ public class TGS_StringUtils {
 
         @GwtIncompatible
         public void toList_spc(CharSequence source, List<String> dst) {
-            var delimiterOrRegex = " ";
-            source = removeConsecutiveText(source.toString().trim(), " ");
-            toList(source, dst, delimiterOrRegex);
-
-            var from = 0;
-            var to = dst.size();
-            var by = 1;
-            IntStream.iterate(to - 1, i -> i - by).limit(to - from).forEach(i -> {
-                var str = dst.get(i);
-                if (TGS_StringUtils.cmn().isNullOrEmpty(str)) {
-                    dst.remove(i);
-                }
-            });
+            toList_delimiterOrRegex(source, dst, " ");
         }
 
         @GwtIncompatible
@@ -304,19 +315,7 @@ public class TGS_StringUtils {
 
         @GwtIncompatible
         public void toList_tab(CharSequence source, List<String> dst) {
-            var delimiterOrRegex = " ";
-            source = removeConsecutiveText(source.toString().trim(), "\t");
-            toList(source, dst, delimiterOrRegex);
-
-            var from = 0;
-            var to = dst.size();
-            var by = 1;
-            IntStream.iterate(to - 1, i -> i - by).limit(to - from).forEach(i -> {
-                var str = dst.get(i);
-                if (TGS_StringUtils.cmn().isNullOrEmpty(str)) {
-                    dst.remove(i);
-                }
-            });
+            toList_delimiterOrRegex(source, dst, "\t");
         }
 
         @GwtIncompatible
@@ -328,8 +327,12 @@ public class TGS_StringUtils {
 
         @GwtIncompatible
         public void toList_ln(CharSequence source, List<String> dst) {
-            var delimiterOrRegex = " ";
-            source = removeConsecutiveText(source.toString().trim(), "\n");
+            toList_delimiterOrRegex(source, dst, "\n");
+        }
+
+        @GwtIncompatible
+        public void toList_delimiterOrRegex(CharSequence source, List<String> dst, CharSequence delimiterOrRegex) {
+            source = removeConsecutiveText(source.toString().trim(), delimiterOrRegex);
             toList(source, dst, delimiterOrRegex);
 
             var from = 0;
@@ -735,7 +738,7 @@ public class TGS_StringUtils {
         }
 
         public String toString(double dbl, TGS_CharSetLocaleTypes type) {
-            var turkish = type.equals(TGS_CharSetCast.typed(type));
+            var turkish = type == TGS_CharSetLocaleTypes.TURKISH;
             var dblStr = String.valueOf(dbl);
             if (!turkish) {
                 return dblStr;
