@@ -176,6 +176,11 @@ public class TGS_StringUtils {
     public static class OnlyJreHappy {
 
         @GwtIncompatible
+        public int countVisibleLetters(CharSequence text) {
+            return (int) text.toString().replaceAll("\\p{C}", "?").codePoints().count();
+        }
+
+        @GwtIncompatible
         public String camelCase(CharSequence text) {
             var buffer = new StringBuilder();
             var wi = new AtomicInteger(-1);
