@@ -3,7 +3,7 @@ package com.tugalsan.api.string.client;
 import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.charset.client.TGS_CharSetLocale;
 import com.tugalsan.api.charset.client.TGS_CharSetLocaleTypes;
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
 import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -63,20 +63,20 @@ public class TGS_StringDouble {
         }
         //FETCH LEFT
         var left = internationalText.substring(0, idx);
-        var leftLng = TGS_FuncMTCEUtils.call(() -> Long.valueOf(left), e -> null);
+        var leftLng = TGS_FuncMTCUtils.call(() -> Long.valueOf(left), e -> null);
         if (leftLng == null) {
             return TGS_UnionExcuse.ofExcuse(TGS_StringDouble.class.getSimpleName(), "of(CharSequence inputText, TGS_CharSetLocaleTypes type)", "leftLng == null");
         }
         //FETCH RIGHT
         var right = internationalText.substring(idx + 1);
-        var rightLng = TGS_FuncMTCEUtils.call(() -> Long.valueOf(right), e -> null);
+        var rightLng = TGS_FuncMTCUtils.call(() -> Long.valueOf(right), e -> null);
         if (rightLng == null) {
             return TGS_UnionExcuse.ofExcuse(TGS_StringDouble.class.getSimpleName(), "of(CharSequence inputText, TGS_CharSetLocaleTypes type)", "rightLng == null");
         }
         //CALC right_zero_onTheFront
         var right_zero_onTheFront = right.length() - String.valueOf(rightLng).length();
         var obj = of(leftLng, rightLng, right_zero_onTheFront, type);
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             obj.val();//if not throws
             return TGS_UnionExcuse.of(obj);
         }, e -> TGS_UnionExcuse.ofExcuse(e));

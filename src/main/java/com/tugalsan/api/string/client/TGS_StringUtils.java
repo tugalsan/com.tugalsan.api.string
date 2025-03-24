@@ -2,7 +2,7 @@ package com.tugalsan.api.string.client;
 
 import com.google.gwt.core.shared.GwtIncompatible;
 import com.tugalsan.api.charset.client.*;
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -275,7 +275,7 @@ public class TGS_StringUtils {
 
         @GwtIncompatible
         public String toString(InputStream is0, Charset charset) {
-            return TGS_FuncMTCEUtils.call(() -> {
+            return TGS_FuncMTCUtils.call(() -> {
                 try (var is = is0) {
                     var bytes = is.readAllBytes();
                     return new String(bytes, charset);
@@ -290,7 +290,7 @@ public class TGS_StringUtils {
 
         @GwtIncompatible
         public void toStream(OutputStream os0, CharSequence data, Charset charset) {
-            TGS_FuncMTCEUtils.run(() -> {
+            TGS_FuncMTCUtils.run(() -> {
                 try (var os = os0) {
                     var bytes = data.toString().getBytes(charset);
                     os.write(bytes);
