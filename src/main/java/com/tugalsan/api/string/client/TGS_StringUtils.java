@@ -415,6 +415,12 @@ public class TGS_StringUtils {
 
         @GwtIncompatible
         public String toString(double input, int charSizeAfterDot, boolean remove0sFromTheEnd) {
+            if (Double.isNaN(input)) {
+                return "NaN";
+            }
+            if (Double.isInfinite(input)) {
+                return "Infinity";
+            }
             var val = String.format("%." + charSizeAfterDot + "f", input);
             if (remove0sFromTheEnd && charSizeAfterDot > 0) {
                 while (val.endsWith("0")) {
