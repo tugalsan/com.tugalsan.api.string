@@ -1,6 +1,10 @@
 package com.tugalsan.api.string.client;
 
 public class TGS_StringIntegerUtils {
+    
+    private TGS_StringIntegerUtils(){
+        
+    }
 
     public static String make2Chars(int value) {
         return value > 9 ? "" + value : "0" + value;
